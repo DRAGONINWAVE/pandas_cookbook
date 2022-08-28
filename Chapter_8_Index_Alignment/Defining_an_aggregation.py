@@ -18,3 +18,12 @@ print(flights.groupby(['ORG_AIR','DEST_AIR']).agg({'CANCELLED':['sum','mean','si
 print(flights.groupby(['ORG_AIR','DEST_AIR']).agg(sum_cancelled=pd.NamedAgg(column='CANCELLED',aggfunc='sum'),
                                                   mean_called=pd.NamedAgg(column='CANCELLED',aggfunc='mean'),
                                                   size_cancellded=pd.NamedAgg(column='CANCELLED',aggfunc='size'),
+                                                  mean_air_time=pd.NamedAgg(column='AIR_TIME',aggfunc='mean'),
+                                                  var_air_time=pd.NamedAgg(column='AIR_TIME',aggfunc='var')))
+
+res = (flights
+       .groupby(['ORG_AIR','DEST_AIR'])
+       .agg({'CANCELLED':['sum','mean','size'],
+             'AIR_TIME':['mean','var']}))
+print(res)
+
