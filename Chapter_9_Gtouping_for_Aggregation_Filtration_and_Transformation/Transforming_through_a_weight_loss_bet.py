@@ -20,3 +20,61 @@ print(
     ['Weight']
     .transform(percent_loss)
     )
+
+print(
+    weight_loss
+    .assign(percent_loss=(weight_loss
+                          .groupby(['Name','Month'])
+                          ['Weight']
+                          .transform(percent_loss)
+                          .round(1)))
+    .query('Name=="Bob" and Month in ["Jan","Feb"]')
+    )
+
+
+print(
+    weight_loss
+    .assign(percent_loss=(weight_loss
+                          .groupby(['Name','Month'])
+                          ['Weight']
+                          .transform(percent_loss)
+                          .round(1)))
+    .query('Week == "Week 4"')
+    )
+print(
+    weight_loss
+    .assign(percent_loss=(weight_loss
+                                     .groupby(['Name','Month'])
+                                     ['Weight']
+                                     .transform(percent_loss)
+                                     .round(1)))
+    .query('Week == "Week 4"')
+    .pivot(index='Month',columns='Name',
+           values='percent_loss')
+    )
+
+print(weight_loss
+      .assign(percent_loss=(weight_loss
+                             .groupby(['Name','Month'])
+                             ['Weight']
+                             .transform(percent_loss)
+                             .round(1)))
+      .query('Week == "Week 4"')
+      .pivot(index='Month',columns='Name',
+             values='percent_loss')
+      .assign(winner=lambda df_:
+              np.where(df_.Amy < df_.Bob,'Amy','Bob'))
+      )
+print(weight_loss
+      .assign(percent_loss=(weight_loss
+                             .groupby(['Name','Month'])
+                             ['Weight']
+                             .transform(percent_loss)
+                             .round(1)))
+      .query('Week == "Week 4"')
+      .pivot(index='Month',columns='Name',
+             values='percent_loss')
+      .assign(winner=lambda df_:
+              np.where(df_.Amy < df_.Bob,'Amy','Bob'))
+      .style.highlight_min(axis=1)
+      )
