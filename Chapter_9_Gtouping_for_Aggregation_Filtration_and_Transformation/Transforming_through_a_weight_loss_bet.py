@@ -78,3 +78,44 @@ print(weight_loss
               np.where(df_.Amy < df_.Bob,'Amy','Bob'))
       .style.highlight_min(axis=1)
       )
+
+print(weight_loss
+      .assign(percent_loss=(weight_loss
+                             .groupby(['Name','Month'])
+                             ['Weight']
+                             .transform(percent_loss)
+                             .round(1)))
+      .query('Week == "Week 4"')
+      .pivot(index='Month',columns='Name',
+             values='percent_loss')
+      .assign(winner=lambda df_:
+              np.where(df_.Amy < df_.Bob,'Amy','Bob'))
+      .winner
+      .value_counts()
+      )
+print(weight_loss
+      .assign(percent_loss=(weight_loss
+                             .groupby(['Name','Month'])
+                             ['Weight']
+                             .transform(percent_loss)
+                             .round(1)))
+      .query('Week == "Week 4"')
+      .groupby(['Month','Name'])
+      ['percent_loss']
+      .first()
+      .unstack()
+      )
+
+print(weight_loss
+      .assign(percent_loss=(weight_loss
+                             .groupby(['Name','Month'])
+                             ['Weight']
+                             .transform(percent_loss)
+                             .round(1)),
+              Month=pd.Categorical(weight_loss.Month,
+                                   categories=['Jan','Feb','Mar','Apr'],
+                                   ordered=True))
+      .query('Week == "Week 4"')
+      .pivot(index='Month',columns='Name',
+             values='percent_loss')
+      )
