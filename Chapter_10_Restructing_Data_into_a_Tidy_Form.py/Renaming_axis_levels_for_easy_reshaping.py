@@ -1,0 +1,73 @@
+import pandas as pd
+import numpy  as np
+
+college = pd.read_csv(r'D:\python3.10\Pandas-Cookbook-master\data\college.csv')
+print(college
+      .groupby(['STABBR','RELAFFIL'])
+      [['UGDS','SATMTMID']]
+      .agg(['size','min','max'])
+)
+print(college
+      .groupby(['STABBR','RELAFFIL'])
+      [['UGDS','SATMTMID']]
+      .agg(['size','min','max'])
+      .rename_axis(['AGG_COLS','AGG_FUNCS'],axis='columns')
+)
+print(college
+      .groupby(['STABBR','RELAFFIL'])
+      [['UGDS','SATMTMID']]
+      .agg(['size','min','max'])
+      .rename_axis(['AGG_COLS','AGG_FUNCS'],axis='columns')
+      .stack('AGG_FUNCS')
+)
+print(college
+      .groupby(['STABBR','RELAFFIL'])
+      [['UGDS','SATMTMID']]
+      .agg(['size','min','max'])
+      .rename_axis(['AGG_COLS','AGG_FUNCS'],axis='columns')
+      .stack('AGG_FUNCS')
+      .swaplevel('AGG_FUNCS','STABBR',
+                 axis='index')
+)
+print(college
+      .groupby(['STABBR','RELAFFIL'])
+      [['UGDS','SATMTMID']]
+      .agg(['size','min','max'])
+      .rename_axis(['AGG_COLS','AGG_FUNCS'],axis='columns')
+      .stack('AGG_FUNCS')
+      .swaplevel('AGG_FUNCS','STABBR',
+                 axis='index')
+)
+print(college
+      .groupby(['STABBR','RELAFFIL'])
+      [['UGDS','SATMTMID']]
+      .agg(['size','min','max'])
+      .rename_axis(['AGG_COLS','AGG_FUNCS'],axis='columns')
+      .stack('AGG_FUNCS')
+      .swaplevel('AGG_FUNCS','STABBR',
+                 axis='index')
+      .sort_index(level='RELAFFIL',axis='index')
+      .sort_index(level='AGG_COLS',axis='columns')
+)
+print(college
+      .groupby(['STABBR','RELAFFIL'])
+      [['UGDS','SATMTMID']]
+      .agg(['size','min','max'])
+      .rename_axis(['AGG_COLS','AGG_FUNCS'],axis='columns')
+      .stack('AGG_FUNCS')
+      .unstack(['RELAFFIL','STABBR'])
+)
+print(college
+      .groupby(['STABBR','RELAFFIL'])
+      [['UGDS','SATMTMID']]
+      .agg(['size','min','max'])
+      .rename_axis(['AGG_COLS','AGG_FUNCS'],axis='columns')
+      .stack(['AGG_FUNCS','AGG_COLS'])
+)
+print(college
+      .groupby(['STABBR','RELAFFIL'])
+      [['UGDS','SATMTMID']]
+      .agg(['size','min','max'])
+      .rename_axis(['AGG_COLS','AGG_FUNCS'],axis='columns')
+      .unstack(['STABBR','RELAFFIL'])
+)
