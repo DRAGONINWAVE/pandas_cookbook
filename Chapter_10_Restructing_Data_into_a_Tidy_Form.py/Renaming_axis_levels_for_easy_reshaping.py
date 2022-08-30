@@ -71,3 +71,10 @@ print(college
       .rename_axis(['AGG_COLS','AGG_FUNCS'],axis='columns')
       .unstack(['STABBR','RELAFFIL'])
 )
+print(college
+      .groupby(['STABBR','RELAFFIL'])
+      [['UGDS','SATMTMID']]
+      .agg(['size','min','max'])
+      .rename_axis([None,None],axis='index')
+      .rename_axis([None,None],axis='columns')
+)
