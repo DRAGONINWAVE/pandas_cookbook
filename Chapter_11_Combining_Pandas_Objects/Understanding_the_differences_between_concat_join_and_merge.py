@@ -37,4 +37,15 @@ stock_merge = (stocks_2016
                       left_index=True,right_index=True,
                       how='outer')
                )
-+-print(stock_concat.sort_index().equals(stock_merge))
+print(stock_concat.sort_index().equals(stock_merge))
+names = ['prices','transactions']
+food_tables = [pd.read_csv(r'D:\python3.10\Pandas-Cookbook-master\data\food_{}.csv'.format(name))for name in names]
+food_prices,food_transactions = food_tables
+print(food_prices)
+print(food_transactions)
+print(food_transactions.merge(food_prices,on=['item','store']))
+print(food_transactions.merge(food_prices.query('Date == 2017'),
+                              how='left'))
+food_prices_join = food_prices.query('Date == 2017').set_index(['item','store'])
+print(food_prices_join)
+print(food_transactions.join(food_prices_join,on=['item','store']))
