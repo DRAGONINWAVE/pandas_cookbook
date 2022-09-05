@@ -139,3 +139,23 @@ outliers = (flights[['DIST','AIR_TIME']]
             .assign(PLOT_NUM=lambda df_:range(1,len(df_)+1))
             )
 print(outliers)
+
+fig,ax = plt.subplots(figsize=(8,6))
+(short
+ .assign(SCORE=scores)
+ .plot.scatter(x='DIST',y='AIR_TIME',
+               alpha=.1,s=1,ax=ax,
+               table=outliers))
+
+outliers.plot.scatter(x='DIST',y='AIR_TIME',
+                      s=25,ax=ax,grid=True)
+outs = outliers[['AIR_TIME','DIST','PLOT_NUM']]
+for t,d,n in outs.itertuples(index=False):
+    ax.text(d+5,t+5,str(n))
+
+
+plt.setp(ax.get_xticklabels(),y=.1)
+plt.setp(ax.get_xticklines(),visible=False)
+ax.set_xlabel('')
+ax.set_title('Flight Time vs Distance with Outliers')
+fig.savefig('c13-scat3.png',dpi=300,bbox_inches='tight')
