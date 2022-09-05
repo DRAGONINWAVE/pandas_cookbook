@@ -99,3 +99,43 @@ fig,ax = plt.subplots(figsize=(8,6))
  )
 
 fig.savefig('c13-scat1.png')
+
+print(flights
+      .reset_index(drop=True)
+      [['DIST','AIR_TIME']]
+      .query('DIST <= 2000')
+      .dropna()
+      .pipe(lambda df_:pd.cut(df_.DIST,
+                              bins=range(0,2001,250)))
+      .value_counts()
+      .sort_index()
+      )
+
+zscore = lambda x:(x-x.mean())/x.std()
+short = (flights[['DIST','AIR_TIME']]
+         .query('DIST <= 2000')
+         .dropna()
+         .reset_index(drop=True)
+         .assign(BIN=lambda df_:pd.cut(df_.DIST,bins=range(0,2001,250))))
+
+scores = short.groupby('BIN')['AIR_TIME'].transform(zscore)
+
+print(short.assign(SCORE=scores))
+
+fig,ax = plt.subplots(figsize=(10,6))
+short.assign(SCORE=scores).pivot(columns='BIN')['SCORE'].plot.box(ax=ax)
+ax.set_title('Z-Score for Distance Groups')
+fig.savefig('c13-box2.png')
+
+mask = (short.assign(SCORE=scores)
+        .pipe(lambda df_:df_.SCORE.abs() >6)
+)
+
+outliers = (flights[['DIST','AIR_TIME']]
+            .query('DIST <= 2000')
+            .dropna()
+            .reset_index(drop=True)
+            [mask]
+            .assign(PLOT_NUM=lambda df_:range(1,len(df_)+1))
+            )
+print(outliers)
