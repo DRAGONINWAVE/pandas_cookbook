@@ -89,3 +89,13 @@ fig,ax = plt.subplots(figsize=(16,4))
            title='Average Distance per Destination')
  )
 fig.savefig('c13-nar1.png')
+
+fig,ax = plt.subplots(figsize=(8,6))
+(flights.reset_index(drop=True)
+ [['DIST','AIR_TIME']]
+ .query('DIST <= 2000')
+ .dropna()
+ .plot.scatter(x='DIST',y='AIR_TIME',ax=ax,alpha=.1,s=1)
+ )
+
+fig.savefig('c13-scat1.png')
